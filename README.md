@@ -54,5 +54,9 @@ This version stores data in the browser's LocalStorage. Your transactions and bu
 - PDF report generation
 - Backup and restore data
 - User login and cloud database integration
+
+Live server link :-
+https://chitranshchauhan.github.io/Smart-Student-Expense-Budget-Tracker/
+
 🎓 Project Information
 Project Name: Smart Student Expense & Budget Tracker
