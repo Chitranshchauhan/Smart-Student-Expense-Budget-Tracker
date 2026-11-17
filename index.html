@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Student Expense & Budget Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <h2>💰 SmartTrack</h2>
+
+            <nav>
+                <a href="#" class="active">🏠 Dashboard</a>
+                <a href="#">💸 Transactions</a>
+                <a href="#">📊 Analytics</a>
+                <a href="#">🎯 Budget Planner</a>
+                <a href="#">⚙️ Settings</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <p>Smart Student Tracker</p>
+                <small>Manage • Track • Save</small>
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Header -->
+            <header class="header">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome back! Manage your finances smartly.</p>
+                </div>
+
+                <button id="addTransactionBtn">
+                    + Add Transaction
+                </button>
+                <button id="themeToggle" class="theme-toggle">
+    🌙 Dark Mode
+</button>
+
+            </header>
+
+
+            <!-- Summary Cards -->
+            <section class="summary-cards">
+
+                <div class="card">
+                    <h3>Total Balance</h3>
+                    <h2 id="totalBalance">₹0</h2>
+                    <p>Your available money</p>
+                </div>
+
+                <div class="card">
+                    <h3>Total Income</h3>
+                    <h2 id="totalIncome">₹0</h2>
+                    <p>Total money received</p>
+                </div>
+
+                <div class="card">
+                    <h3>Total Expenses</h3>
+                    <h2 id="totalExpenses">₹0</h2>
+                    <p>Total money spent</p>
+                </div>
+
+                <div class="card">
+                    <h3>Monthly Budget</h3>
+                    <h2 id="monthlyBudget">₹0</h2>
+                    <p>Monthly spending limit</p>
+                </div>
+
+            </section>
+
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+
+                <div class="chart-box">
+                    <h2>Expense Overview</h2>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+
+                <div class="chart-box">
+                    <h2>Monthly Spending</h2>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+
+            </section>
+
+<!-- Monthly Budget Planner -->
+
+<section class="budget-section">
+
+    <div class="budget-header">
+        <h2>🎯 Monthly Budget Planner</h2>
+        <p>Manage your monthly spending limit.</p>
+    </div>
+
+    <div class="budget-input">
+
+        <input
+            type="number"
+            id="budgetInput"
+            placeholder="Enter monthly budget (₹)"
+            min="1"
+        >
+
+        <button id="setBudgetBtn">
+            Set Budget
+        </button>
+
+    </div>
+
+    <div class="budget-details">
+
+        <div>
+            <span>Monthly Budget</span>
+            <h3 id="budgetTotal">₹0</h3>
+        </div>
+
+        <div>
+            <span>Spent</span>
+            <h3 id="budgetSpent">₹0</h3>
+        </div>
+
+        <div>
+            <span>Remaining</span>
+            <h3 id="budgetRemaining">₹0</h3>
+        </div>
+
+    </div>
+
+    <div class="progress-container">
+
+        <div class="progress-bar" id="budgetProgress"></div>
+
+    </div>
+
+    <p id="budgetMessage">
+        Set your monthly budget to get started.
+    </p>
+
+</section>
+            <!-- Recent Transactions -->
+            <section class="transactions-section">
+
+                <div class="section-heading">
+                    <h2>Recent Transactions</h2>
+                    <button id="viewAllBtn">View All</button>
+                </div>
+                <!-- Search and Filter Section -->
+
+<div class="filter-section">
+<button id="exportBtn" class="export-btn">
+    📥 Export CSV
+</button>
+    <input
+        type="text"
+        id="searchTransaction"
+        placeholder="🔍 Search transactions..."
+    >
+
+    <select id="filterType">
+
+        <option value="all">All Transactions</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+
+    </select>
+
+</div>
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="transactionList">
+
+                        <tr>
+                            <td colspan="5">
+                                No transactions yet.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </main>
+
+    </div>
+
+<!-- Transaction Modal -->
+
+<div class="modal" id="transactionModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>Add Transaction</h2>
+            <button id="closeModal">&times;</button>
+        </div>
+
+        <form id="transactionForm">
+
+            <label>Transaction Title</label>
+            <input type="text" id="title"
+                placeholder="Example: Pocket Money" required>
+
+            <label>Amount (₹)</label>
+            <input type="number" id="amount"
+                placeholder="Enter amount" min="0.01"
+                step="0.01" required>
+
+            <label>Transaction Type</label>
+            <select id="type" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+
+            <label>Category</label>
+            <select id="category" required>
+                <option value="Pocket Money">Pocket Money</option>
+                <option value="Food">Food</option>
+                <option value="Travel">Travel</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Education">Education</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label>Date</label>
+            <input type="date" id="date" required>
+
+            <button type="submit" class="submit-btn">
+                Save Transaction
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+    <script src="script.js"></script>
+
+</body>
+</html>
